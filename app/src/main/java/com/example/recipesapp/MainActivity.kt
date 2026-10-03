@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,39 +32,25 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RecipesAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize(), topBar = { TopBar() }) { innerPadding ->
-                    Column(modifier = Modifier.padding(innerPadding)) {
-                        Discover()
-                    }
+                @OptIn(ExperimentalMaterial3Api::class)
+                Scaffold(modifier = Modifier.fillMaxSize(), topBar = { TopAppBar({Text("RecipeApp")}) }) { innerPadding ->
+
+                        Discover(modifier = Modifier.padding(innerPadding))
+
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-@Composable fun TopBar(modifier: Modifier = Modifier){
-    Row(modifier = modifier.fillMaxWidth().height(60.dp).background(color = MaterialTheme.colorScheme.primary),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically) {
-        Text(text = "RecipeApp", color = MaterialTheme.colorScheme.onPrimary)
-    }
-
-}
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     RecipesAppTheme {
-        Scaffold(modifier = Modifier.fillMaxSize(), topBar = { TopBar() }) { innerPadding ->
-            Column(modifier = Modifier.padding(innerPadding)) {
-                Discover()
-            }
+        Scaffold(modifier = Modifier.fillMaxSize(), topBar = { TopAppBar({Text("RecipeApp")})}) { innerPadding ->
+                Discover(Modifier.padding(innerPadding))
+
         }
     }
 }
