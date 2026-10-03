@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.recipesapp.ui.discover.Discover
+import com.example.recipesapp.ui.recipe_details.RecipeDetails
 import com.example.recipesapp.ui.search.SearchResultScreen
 import com.example.recipesapp.ui.theme.RecipesAppTheme
 
@@ -36,7 +37,8 @@ class MainActivity : ComponentActivity() {
                 @OptIn(ExperimentalMaterial3Api::class)
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = { TopAppBar({Text("RecipeApp")}) }) { innerPadding ->
                         //Discover(modifier = Modifier.padding(innerPadding))
-                    SearchResultScreen(modifier = Modifier.padding(innerPadding))
+                    //SearchResultScreen(modifier = Modifier.padding(innerPadding))
+                    RecipeDetails(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
