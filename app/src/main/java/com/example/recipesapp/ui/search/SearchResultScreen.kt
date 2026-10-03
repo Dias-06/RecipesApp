@@ -105,7 +105,7 @@ fun SearchResultScreen(modifier: Modifier = Modifier){
 }
 @Composable
 fun SearchResultCard(modifier: Modifier = Modifier, name : String, country : String, image : String){
-    Card(modifier =modifier) {
+    Card(modifier =modifier, onClick = {}) {
         Column() {
             Box(modifier = Modifier.height(200.dp).fillMaxWidth().background(color = MaterialTheme.colorScheme.primary))//image
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
