@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
     Column(modifier = modifier.verticalScroll(scrollState).padding(start = 10.dp, end = 10.dp), verticalArrangement = Arrangement.spacedBy(15.dp), ) {
         //input for search recipe
         TextField(
+            readOnly = true,
             value = text,
             onValueChange = {cur -> text = cur},
             modifier = Modifier.fillMaxWidth(),
