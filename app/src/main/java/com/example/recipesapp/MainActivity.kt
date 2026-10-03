@@ -34,23 +34,10 @@ class MainActivity : ComponentActivity() {
             RecipesAppTheme {
                 @OptIn(ExperimentalMaterial3Api::class)
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = { TopAppBar({Text("RecipeApp")}) }) { innerPadding ->
-
                         Discover(modifier = Modifier.padding(innerPadding))
-
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RecipesAppTheme {
-        Scaffold(modifier = Modifier.fillMaxSize(), topBar = { TopAppBar({Text("RecipeApp")})}) { innerPadding ->
-                Discover(Modifier.padding(innerPadding))
-
-        }
-    }
-}
