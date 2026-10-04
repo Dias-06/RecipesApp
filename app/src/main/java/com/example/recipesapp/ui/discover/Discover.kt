@@ -28,16 +28,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-@Composable fun Discover(modifier: Modifier = Modifier){
+@Composable fun Discover(modifier: Modifier = Modifier, onSearchClick : () -> Unit){
     val scrollState = rememberScrollState()
     var text by remember() {mutableStateOf("") }
-    Column(modifier = modifier.verticalScroll(scrollState).padding(start = 10.dp, end = 10.dp), verticalArrangement = Arrangement.spacedBy(15.dp), ) {
+    Column(modifier = modifier.verticalScroll(scrollState).padding(start = 10.dp, end = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp) ) {
         //input for search recipe
         TextField(
+            readOnly = true,
             value = text,
             onValueChange = {cur -> text = cur},
             modifier = Modifier.fillMaxWidth(),
-            trailingIcon = {IconButton(onClick = {}) {
+            trailingIcon = {IconButton(onClick = {onSearchClick()}) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "search recipe")
             }},
             placeholder = { Text("Search...") },
