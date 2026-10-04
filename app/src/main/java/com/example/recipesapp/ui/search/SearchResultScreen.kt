@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 data class Meal(val strMeal : String, val strCountry : String, val strMealThumb : String)
 
 @Composable
-fun SearchResultScreen(modifier: Modifier = Modifier){
+fun SearchResultScreen(modifier: Modifier = Modifier, onMealClick : (id : Int) -> Unit){
     val meals = listOf(
         Meal(
             strMeal = "Plov",
@@ -97,15 +97,15 @@ fun SearchResultScreen(modifier: Modifier = Modifier){
         )
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(meals){
-                meal -> SearchResultCard(name = meal.strMeal, country = meal.strCountry, image = meal.strMealThumb)
+                meal -> SearchResultCard(name = meal.strMeal, country = meal.strCountry, image = meal.strMealThumb, onCardClick = onMealClick)
             }
         }
     }
 
 }
 @Composable
-fun SearchResultCard(modifier: Modifier = Modifier, name : String, country : String, image : String){
-    Card(modifier =modifier, onClick = {}) {
+fun SearchResultCard(modifier: Modifier = Modifier, name : String, country : String, image : String, onCardClick: (id: Int) -> Unit){
+    Card(modifier =modifier, onClick = {onCardClick(53083)}) {
         Column() {
             Box(modifier = Modifier.height(200.dp).fillMaxWidth().background(color = MaterialTheme.colorScheme.primary))//image
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {

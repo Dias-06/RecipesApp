@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,9 +17,9 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun RecipeDetails(modifier: Modifier = Modifier){
-
-    Column(modifier = modifier.padding(horizontal = 10.dp)) {
+fun RecipeDetails(modifier: Modifier = Modifier, recipeId : String){
+    val scrollState = rememberScrollState()
+    Column(modifier = modifier.padding(horizontal = 10.dp).verticalScroll(scrollState)) {
         Box(modifier = Modifier.height(200.dp).fillMaxWidth().background(color = MaterialTheme.colorScheme.primary))//image
         Column() {
             Text("Teriyaki Chicken Casserole", style = MaterialTheme.typography.titleLarge)

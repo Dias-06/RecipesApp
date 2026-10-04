@@ -31,7 +31,7 @@ fun SavedRecipes(modifier: Modifier = Modifier){
         ),)
     LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier.padding(horizontal = 10.dp)) {
         items(meals){
-            meal -> SearchResultCard(name = meal.strMeal, country = meal.strCountry, image = meal.strMealThumb)
+            meal -> SearchResultCard(name = meal.strMeal, country = meal.strCountry, image = meal.strMealThumb, onCardClick = {})
         }
     }
 }
