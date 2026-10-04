@@ -1,6 +1,6 @@
 plugins {
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
@@ -40,6 +40,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.converter.kotlinx)
+
     implementation("androidx.navigation:navigation-compose:2.10.2")
 
     implementation("androidx.compose.material:material-icons-extended")
