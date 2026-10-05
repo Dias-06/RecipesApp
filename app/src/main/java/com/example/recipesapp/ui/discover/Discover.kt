@@ -1,6 +1,7 @@
 package com.example.recipesapp.ui.discover
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,16 +31,16 @@ import androidx.compose.ui.unit.dp
 
 @Composable fun Discover(modifier: Modifier = Modifier, onSearchClick : () -> Unit){
     val scrollState = rememberScrollState()
-    var text by remember() {mutableStateOf("") }
     Column(modifier = modifier.verticalScroll(scrollState).padding(start = 10.dp, end = 10.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp) ) {
         //input for search recipe
         TextField(
             readOnly = true,
-            value = text,
-            onValueChange = {cur -> text = cur},
-            modifier = Modifier.fillMaxWidth(),
-            trailingIcon = {IconButton(onClick = {onSearchClick()}) {
+            value = "",
+            enabled = false,
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth().clickable(onClick = {onSearchClick()}),
+            trailingIcon = {IconButton(onClick = {}) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "search recipe")
             }},
             placeholder = { Text("Search...") },
