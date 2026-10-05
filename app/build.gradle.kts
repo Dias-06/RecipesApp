@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation("io.coil-kt:coil-compose:2.7.0")
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.converter.kotlinx)
 
