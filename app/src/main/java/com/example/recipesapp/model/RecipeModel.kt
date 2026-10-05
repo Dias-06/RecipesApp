@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SearchedRecipeModel(
-    val meals : List<Meal>? = emptyList()
+    val meals : List<Meal>?
 )
 @Serializable
 data class Meal(
