@@ -40,7 +40,7 @@ fun SearchResultScreen(modifier: Modifier = Modifier, onMealClick : (id : String
             value = text,
             onValueChange = {cur -> viewModel.inputTextChange(cur)},
             modifier = Modifier.fillMaxWidth(),
-            trailingIcon = {IconButton(onClick = {viewModel.searchRecipe(text)}) {
+            trailingIcon = {IconButton(onClick = {viewModel.searchRecipe(text.trim())}) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "search recipe")
             }},
             placeholder = { Text("Search...") },
@@ -90,11 +90,6 @@ fun SearchResultScreen(modifier: Modifier = Modifier, onMealClick : (id : String
                     style = MaterialTheme.typography.titleLarge
                 )
             }
-
-
-
-
-
         }
 
     }

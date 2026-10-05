@@ -11,6 +11,7 @@ class SearchViewModel : ViewModel() {
     var uiState = MutableStateFlow<SearchScreenUIState>(Initial)
     var textInput = MutableStateFlow("")
     fun searchRecipe(text  : String){
+        if (text == "") return
         viewModelScope.launch {
             try {
                 uiState.value = Loading
