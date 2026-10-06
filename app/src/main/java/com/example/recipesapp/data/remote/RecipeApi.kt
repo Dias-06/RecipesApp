@@ -1,5 +1,6 @@
 package com.example.recipesapp.data.remote
 
+import com.example.recipesapp.model.CategoryModel
 import com.example.recipesapp.model.SearchedRecipeModel
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -12,6 +13,10 @@ interface RecipeApi {
     @GET("api/json/v1/1/search.php")
     suspend fun searchRecipes(@Query(value = "s") name : String) : SearchedRecipeModel
 }
+interface CategoryApi {
+    @GET("api/json/v1/1/categories.php")
+    suspend fun getCategories() : CategoryModel
+}
 object Network{
     private val customJson = Json { ignoreUnknownKeys = true }
     private const val BASE_URL = "https://www.themealdb.com/"
@@ -19,4 +24,5 @@ object Network{
         .addConverterFactory(customJson.asConverterFactory("application/json".toMediaType())).build()
 
     val recipeApi : RecipeApi = retrofit.create(RecipeApi::class.java)
+    val categoryApi : CategoryApi = retrofit.create(CategoryApi::class.java)
 }
