@@ -31,6 +31,8 @@ import com.example.recipesapp.ui.discover.Discover
 import com.example.recipesapp.ui.recipe_details.RecipeDetails
 import com.example.recipesapp.ui.saved.SavedRecipes
 import com.example.recipesapp.ui.search.SearchResultScreen
+import com.example.recipesapp.ui.searchByCategory.SearchByCategoryScreen
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(navController : NavHostController = rememberNavController()){
@@ -63,7 +65,9 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
             modifier = Modifier.padding(innerPadding))
         {
             composable(route = "discover") {
-                Discover(onSearchClick = {navController.navigate("searchResult")})
+                Discover(
+                    onSearchClick = {navController.navigate("searchResult")},
+                    onCategoryClick = {name -> navController.navigate("searchByCategory/${name}")})
             }
             composable(route = "searchResult") {
                 SearchResultScreen(onMealClick = {id -> navController.navigate("recipeDetails/${id}")})
@@ -76,6 +80,9 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
             }
             composable("myRecipes"){
                 MyRecipes()
+            }
+            composable("searchByCategory/{mealName}"){ backStackEntry ->
+                SearchByCategoryScreen(onMealClick = {id -> navController.navigate("recipeDetails/${id}")})
             }
         }
     }
