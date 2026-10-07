@@ -2,11 +2,9 @@ package com.example.recipesapp.ui.discover
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,25 +28,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.recipesapp.model.Category
-import com.example.recipesapp.ui.theme.RecipesAppTheme
 
 @Composable
-fun CategoryCard(modifier: Modifier = Modifier, categoryItem : Category){
-    Card(modifier = modifier) {
+fun CategoryCard(modifier: Modifier = Modifier, categoryItem : Category, onClick : (String) -> Unit){
+    Card(modifier = modifier,onClick = {onClick(categoryItem.strCategory)}) {
         Column(modifier = Modifier.padding(12.dp)) {
             AsyncImage(model = categoryItem.strCategoryThumb,
                 contentDescription = "category image",
@@ -61,7 +53,7 @@ fun CategoryCard(modifier: Modifier = Modifier, categoryItem : Category){
     }
 
 }
-@Composable fun Discover(modifier: Modifier = Modifier, onSearchClick : () -> Unit){
+@Composable fun Discover(modifier: Modifier = Modifier, onSearchClick : () -> Unit, onCategoryClick : (name : String) -> Unit){
     val viewModel : DiscoverViewModel = viewModel()
     val uiState = viewModel.uiState.collectAsState().value
     val scrollState = rememberScrollState()
@@ -87,7 +79,7 @@ fun CategoryCard(modifier: Modifier = Modifier, categoryItem : Category){
             is Success -> Column() {
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
                     items(items = uiState.category.categories){
-                            category -> CategoryCard(categoryItem = category, modifier = Modifier.width(200.dp).height(220.dp))
+                            category -> CategoryCard(categoryItem = category, modifier = Modifier.width(200.dp).height(220.dp), onClick = onCategoryClick)
                     }
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally,
