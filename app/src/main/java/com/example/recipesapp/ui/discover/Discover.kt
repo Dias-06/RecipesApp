@@ -17,7 +17,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Downloading
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -53,7 +56,12 @@ fun CategoryCard(modifier: Modifier = Modifier, categoryItem : Category, onClick
     }
 
 }
-@Composable fun Discover(modifier: Modifier = Modifier, onSearchClick : () -> Unit, onCategoryClick : (name : String) -> Unit){
+@Composable fun Discover(
+        modifier: Modifier = Modifier,
+        onSearchClick : () -> Unit,
+        onCategoryClick : (name : String) -> Unit,
+        onRandomMealClick : (String) -> Unit
+){
     val viewModel : DiscoverViewModel = viewModel()
     val uiState = viewModel.uiState.collectAsState().value
     val scrollState = rememberScrollState()
@@ -86,11 +94,24 @@ fun CategoryCard(modifier: Modifier = Modifier, categoryItem : Category, onClick
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier.fillMaxWidth()) {
                     Text(text = "Random recipe", style = MaterialTheme.typography.titleMedium)
-                    Box(modifier = Modifier.size(200.dp).background(color = MaterialTheme.colorScheme.primary))//image
-                    Button(onClick = {}) { //name and navigation
-                        Text("Chicken curry")
+                    AsyncImage(model = uiState.randomMeal.meals?.firstOrNull()?.strMealThumb,
+                        contentDescription = "meal image",
+                        placeholder = rememberVectorPainter(Icons.Default.Downloading),
+                        error = rememberVectorPainter(Icons.Default.Warning),
+                        fallback = rememberVectorPainter(Icons.Default.Warning))
+                    Button(onClick = {onRandomMealClick(uiState.randomMeal.meals?.firstOrNull()?.idMeal ?: "")}) { //name and navigation
+                        Text(uiState.randomMeal.meals?.firstOrNull()?.strMeal ?: "Unknown")
                     }
                 }
+            }
+            is Error -> Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = uiState.message,
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
     }
 }}

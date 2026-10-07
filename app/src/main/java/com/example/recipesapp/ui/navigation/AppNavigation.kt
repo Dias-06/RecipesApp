@@ -71,7 +71,8 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
             composable(route = "discover") {
                 Discover(
                     onSearchClick = {navController.navigate("searchResult")},
-                    onCategoryClick = {name -> navController.navigate("searchByCategory/${name}")})
+                    onCategoryClick = {name -> navController.navigate("searchByCategory/${name}")},
+                    onRandomMealClick = {id -> navController.navigate("recipeDetails/${id}")})
             }
             composable(route = "searchResult") {
                 SearchResultScreen(onMealClick = {id -> navController.navigate("recipeDetails/${id}")})

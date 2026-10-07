@@ -7,9 +7,9 @@ import com.example.recipesapp.model.CategoryModel
 import com.example.recipesapp.ui.discover.Loading
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import okio.IOException
 
 class DiscoverViewModel : ViewModel() {
-    val categoryList = MutableStateFlow(CategoryModel(categories = emptyList()))
     val uiState = MutableStateFlow<DiscoverUIState>(Loading)
 
     init {
@@ -19,10 +19,11 @@ class DiscoverViewModel : ViewModel() {
         uiState.value = Loading
         viewModelScope.launch {
             try {
-                val res = Network.categoryApi.getCategories()
-                categoryList.value = res
-                uiState.value = Success(category = res)
-            }catch (e : Exception){
+                val categories = Network.categoryApi.getCategories()
+                val randomMeal = Network.randomMealApi.getRandomMeal()
+                uiState.value = Success(category = categories, randomMeal)
+            }catch (e : IOException){
+                uiState.value = Error(message = "Check internet connection")
                 println(e.message)
             }
         }
