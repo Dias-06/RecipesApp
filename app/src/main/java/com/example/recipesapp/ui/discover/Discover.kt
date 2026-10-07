@@ -92,8 +92,5 @@ fun CategoryCard(modifier: Modifier = Modifier, categoryItem : Category, onClick
                     }
                 }
             }
-
-        //Random recipe
-
     }
 }}

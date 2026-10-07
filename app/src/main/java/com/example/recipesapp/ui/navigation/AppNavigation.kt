@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -37,15 +38,27 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
         bottomBar = { NavigationBar{
             NavigationBarItem(icon = { Icon(imageVector = Icons.Default.Search, contentDescription = "discover") },
                 onClick = {
-                    navController.navigate("discover")},
+                    navController.navigate("discover"){
+                        popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
+                        restoreState = true
+                        launchSingleTop = true
+                    }},
                 selected = currentRoute == "discover")
             NavigationBarItem(icon = { Icon(imageVector = Icons.Default.Favorite, contentDescription = "saved") },
                 onClick = {
-                    navController.navigate("saved")},
+                    navController.navigate("saved"){
+                        popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
+                        restoreState = true
+                        launchSingleTop = true
+                    }},
                 selected = currentRoute == "saved")
             NavigationBarItem(icon = { Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "my recipes") },
                 onClick = {
-                    navController.navigate("myRecipes")},
+                    navController.navigate("myRecipes"){
+                        popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
+                        restoreState = true
+                        launchSingleTop = true
+                    }},
                 selected = currentRoute == "myRecipes")
         }  })
     {
