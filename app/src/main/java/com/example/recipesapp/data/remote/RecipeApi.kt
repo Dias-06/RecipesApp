@@ -25,6 +25,10 @@ interface RandomMealApi{
     @GET("api/json/v1/1/random.php")
     suspend fun getRandomMeal() : SearchedRecipeModel
 }
+interface SearchByIDApi{
+    @GET("api/json/v1/1/lookup.php")
+    suspend fun searchById(@Query(value = "i") id : String) : SearchedRecipeModel
+}
 object Network{
     private val customJson = Json { ignoreUnknownKeys = true }
     private const val BASE_URL = "https://www.themealdb.com/"
@@ -35,4 +39,5 @@ object Network{
     val categoryApi : CategoryApi = retrofit.create(CategoryApi::class.java)
     val randomMealApi : RandomMealApi = retrofit.create(RandomMealApi::class.java)
     val searchByCategoryApi : SearchByCategoryApi = retrofit.create(SearchByCategoryApi::class.java)
+    val searchByIdApi : SearchByIDApi = retrofit.create(SearchByIDApi::class.java)
 }

@@ -12,7 +12,8 @@ data class Meal(
     val strMeal : String?,
     val strCountry : String?,
     val strMealThumb : String?,
-    val strTags : String?,
+    val strTags : String? = null,
+    val strInstructions : String? = null,
 // Ingredients (1-20)
     val strIngredient1: String? = null,
     val strIngredient2: String? = null,
@@ -76,6 +77,6 @@ fun Meal.getIngredientsList() : List<IngredientItem>{
         strMeasure16, strMeasure17, strMeasure18, strMeasure19, strMeasure20
     )
     val zipped = ingredients.zip(measures){name, measure -> IngredientItem(name.trim(), measure.trim()) }
-    val filterEmpty = zipped.filter { item -> item.name == "" }
+    val filterEmpty = zipped.filter { item -> item.name.isNotBlank() && item.name !=null }
     return  filterEmpty
 }

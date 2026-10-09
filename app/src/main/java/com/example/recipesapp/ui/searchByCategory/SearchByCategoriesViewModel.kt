@@ -1,5 +1,6 @@
 package com.example.recipesapp.ui.searchByCategory
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,6 +25,7 @@ class SearchByCategoriesViewModel(savedStateHandle: SavedStateHandle) : ViewMode
             }catch (e : IOException){
                 _uiState.value = Error(errorMessage = "Check the internet connection")
             }catch (e : Exception){
+                Log.e("SearchViewModel", "Error fetching category $categoryName", e)
                 _uiState.value = Error(errorMessage = "Something went wrong try again")
             }
         }

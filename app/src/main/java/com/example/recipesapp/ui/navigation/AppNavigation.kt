@@ -33,34 +33,41 @@ import com.example.recipesapp.ui.searchByCategory.SearchByCategoryScreen
 fun AppNavigation(navController : NavHostController = rememberNavController()){
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry.value?.destination?.route
+    val topLevelRoutes = listOf("discover", "saved", "myRecipes")
+
+    val showBottomBar = currentRoute in topLevelRoutes
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { TopAppBar({Text("RecipeApp")})},
-        bottomBar = { NavigationBar{
-            NavigationBarItem(icon = { Icon(imageVector = Icons.Default.Search, contentDescription = "discover") },
-                onClick = {
-                    navController.navigate("discover"){
-                        popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
-                        restoreState = true
-                        launchSingleTop = true
-                    }},
-                selected = currentRoute == "discover")
-            NavigationBarItem(icon = { Icon(imageVector = Icons.Default.Favorite, contentDescription = "saved") },
-                onClick = {
-                    navController.navigate("saved"){
-                        popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
-                        restoreState = true
-                        launchSingleTop = true
-                    }},
-                selected = currentRoute == "saved")
-            NavigationBarItem(icon = { Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "my recipes") },
-                onClick = {
-                    navController.navigate("myRecipes"){
-                        popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
-                        restoreState = true
-                        launchSingleTop = true
-                    }},
-                selected = currentRoute == "myRecipes")
-        }  })
+        bottomBar = {
+            if (showBottomBar){
+                NavigationBar{
+                    NavigationBarItem(icon = { Icon(imageVector = Icons.Default.Search, contentDescription = "discover") },
+                        onClick = {
+                            navController.navigate("discover"){
+                                popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
+                                restoreState = true
+                                launchSingleTop = true
+                            }},
+                        selected = currentRoute == "discover")
+                    NavigationBarItem(icon = { Icon(imageVector = Icons.Default.Favorite, contentDescription = "saved") },
+                        onClick = {
+                            navController.navigate("saved"){
+                                popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
+                                restoreState = true
+                                launchSingleTop = true
+                            }},
+                        selected = currentRoute == "saved")
+                    NavigationBarItem(icon = { Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "my recipes") },
+                        onClick = {
+                            navController.navigate("myRecipes"){
+                                popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
+                                restoreState = true
+                                launchSingleTop = true
+                            }},
+                        selected = currentRoute == "myRecipes")
+                }
+            }
+             })
     {
         innerPadding ->
         NavHost(
@@ -77,8 +84,8 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
             composable(route = "searchResult") {
                 SearchResultScreen(onMealClick = {id -> navController.navigate("recipeDetails/${id}")})
             }
-            composable("recipeDetails/{recipeId}") { backStackEntry ->
-                RecipeDetails(recipeId = backStackEntry.arguments?.getString("recipeId") ?: "")
+            composable("recipeDetails/{recipeId}") {
+                RecipeDetails()
             }
             composable("saved") {
                 SavedRecipes()
