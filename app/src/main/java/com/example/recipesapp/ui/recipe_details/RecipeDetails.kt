@@ -15,9 +15,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.OutlinedFlag
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -70,13 +72,13 @@ fun RecipeDetails(modifier: Modifier = Modifier){
                     val entity = SavedMealEntity(id = meal?.idMeal ?: "1", name = meal?.strMeal, country = meal?.strCountry, image = meal?.strMealThumb)
                     Text(meal?.strMeal ?: "Unknown", style = MaterialTheme.typography.titleLarge)
                     if(isSaved){
-                        IconButton(onClick = {}, modifier = Modifier.size(40.dp)) {
-                            Icon(Icons.Filled.Bookmark, contentDescription = "Saved meal")
+                        IconButton(onClick = {viewModel.deleteMeal(meal = entity)}, modifier = Modifier.size(40.dp)) {
+                            Icon(Icons.Outlined.Bookmark, contentDescription = "Save meal")
                         }
                     }
-                    else {
+                    else{
                         IconButton(onClick = {viewModel.saveRecipe(entity)}, modifier = Modifier.size(40.dp)) {
-                            Icon(Icons.Outlined.Bookmark, contentDescription = "Save meal")
+                            Icon(Icons.Outlined.BookmarkBorder, contentDescription = "Save meal")
                         }
                     }
 

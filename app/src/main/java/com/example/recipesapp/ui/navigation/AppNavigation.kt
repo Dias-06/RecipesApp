@@ -53,7 +53,6 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
                         onClick = {
                             navController.navigate("saved"){
                                 popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
-                                restoreState = true
                                 launchSingleTop = true
                             }},
                         selected = currentRoute == "saved")

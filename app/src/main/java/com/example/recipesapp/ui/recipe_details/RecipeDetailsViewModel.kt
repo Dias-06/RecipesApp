@@ -18,7 +18,7 @@ class RecipeDetailsViewModel(application: Application, savedStateHandle: SavedSt
     private val _uiState = MutableStateFlow<DetailsUIState>(DetailsUIState.Loading)
     val uiState = _uiState.asStateFlow()
     private val db = (application as RecipesApplication).db
-    private val _saved = MutableStateFlow(false)
+    private var _saved = MutableStateFlow(false)
     val saved = _saved.asStateFlow()
     init {
         val id = savedStateHandle["recipeId"] ?: ""
@@ -53,12 +53,24 @@ class RecipeDetailsViewModel(application: Application, savedStateHandle: SavedSt
         viewModelScope.launch {
             try {
                 db.savedMealsDAO().addMeal(meal)
+                _saved.value = true
                 Log.i("SaveMeal", "Meal saved successfully")
             }catch (e : Exception){
                 Log.e("SaveMeal", "Error save meal",e)
             }
         }
 
+    }
+    fun deleteMeal(meal :  SavedMealEntity){
+        viewModelScope.launch {
+            try {
+                db.savedMealsDAO().deleteMeal(meal)
+                _saved.value = false
+                Log.i("DeleteMeal", "Meal ${meal.id} deleted successfully")
+            }catch (e : Exception){
+                Log.e("DeleteMeal", "Error occurred on delete", e)
+            }
+        }
     }
     fun isSaved(id : String){
         viewModelScope.launch {
