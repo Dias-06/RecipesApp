@@ -21,10 +21,9 @@ import com.example.recipesapp.ui.search.SearchResultCard
 
 
 @Composable
-fun SavedRecipes(modifier: Modifier = Modifier) {
+fun SavedRecipes(modifier: Modifier = Modifier, onMealClick : (id: String) -> Unit) {
     val viewModel: SavedRecipesViewModel = viewModel()
-    val uiState = viewModel.uiState.collectAsState().value
-    when (uiState) {
+    when (val uiState = viewModel.uiState.collectAsState().value) {
         is SavedRecipesUIState.Loading -> Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -45,8 +44,14 @@ fun SavedRecipes(modifier: Modifier = Modifier) {
             modifier = modifier.padding(horizontal = 10.dp)
         ) {
             items(items = uiState.res) { item ->
-                Text(text = item.name ?: "Unknown", modifier = Modifier.fillMaxWidth())
+                SearchResultCard(
+                    name = item.name ?: "Unknown",
+                    country = item.country ?: "Unknown",
+                    image = item.image ?: "",
+                    id = item.id,
+                    onCardClick = onMealClick)
             }
+
         }
     }
 }

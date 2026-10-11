@@ -77,7 +77,7 @@ class RecipeDetailsViewModel(application: Application, savedStateHandle: SavedSt
             try {
                  _saved.value = db.savedMealsDAO().isMealSaved(id)
             }catch (e : Exception){
-                Log.e("checkSavedMeal", "Error checking", e)
+                Log.e("checkSavedMeal", "Error occurred on checking", e)
             }
         }
     }

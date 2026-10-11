@@ -87,7 +87,7 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
                 RecipeDetails()
             }
             composable("saved") {
-                SavedRecipes()
+                SavedRecipes(onMealClick = {id -> navController.navigate("recipeDetails/${id}")})
             }
             composable("myRecipes"){
                 MyRecipes()
