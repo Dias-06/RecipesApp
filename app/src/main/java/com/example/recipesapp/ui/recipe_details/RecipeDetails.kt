@@ -42,6 +42,7 @@ import com.example.recipesapp.model.getIngredientsList
 fun RecipeDetails(modifier: Modifier = Modifier){
     val viewModel : RecipeDetailsViewModel = viewModel()
     val uiState = viewModel.uiState.collectAsState().value
+    val isSaved = viewModel.saved.collectAsState().value
     val scrollState = rememberScrollState()
     when(uiState){
         is DetailsUIState.Loading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
@@ -68,9 +69,17 @@ fun RecipeDetails(modifier: Modifier = Modifier){
                 Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                     val entity = SavedMealEntity(id = meal?.idMeal ?: "1", name = meal?.strMeal, country = meal?.strCountry, image = meal?.strMealThumb)
                     Text(meal?.strMeal ?: "Unknown", style = MaterialTheme.typography.titleLarge)
-                    IconButton(onClick = {viewModel.saveRecipe(entity)}, modifier = Modifier.size(20.dp)) {
-                        Icon(Icons.Outlined.Bookmark, contentDescription = "Save meal")
+                    if(isSaved){
+                        IconButton(onClick = {}, modifier = Modifier.size(40.dp)) {
+                            Icon(Icons.Filled.Bookmark, contentDescription = "Saved meal")
+                        }
                     }
+                    else {
+                        IconButton(onClick = {viewModel.saveRecipe(entity)}, modifier = Modifier.size(40.dp)) {
+                            Icon(Icons.Outlined.Bookmark, contentDescription = "Save meal")
+                        }
+                    }
+
                 }
 
                 Text(meal?.strTags ?: "No tags")//tags

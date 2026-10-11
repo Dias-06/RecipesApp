@@ -4,8 +4,6 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import com.example.recipesapp.RecipesApplication
 import com.example.recipesapp.data.local.SavedMealEntity
@@ -20,9 +18,12 @@ class RecipeDetailsViewModel(application: Application, savedStateHandle: SavedSt
     private val _uiState = MutableStateFlow<DetailsUIState>(DetailsUIState.Loading)
     val uiState = _uiState.asStateFlow()
     private val db = (application as RecipesApplication).db
+    private val _saved = MutableStateFlow(false)
+    val saved = _saved.asStateFlow()
     init {
         val id = savedStateHandle["recipeId"] ?: ""
         getDetails(id)
+        isSaved(id)
     }
     fun getDetails(id : String){
         viewModelScope.launch {
@@ -36,7 +37,7 @@ class RecipeDetailsViewModel(application: Application, savedStateHandle: SavedSt
                 Log.d("getDetails", "Ингредиент 1: '${meal?.strIngredient1}', Мера 1: '${meal?.strMeasure1}'")
                 Log.d("getDetails", "Всего ингредиентов распаршено: ${meal?.getIngredientsList()?.size}")
                 _uiState.value = DetailsUIState.Success(res)
-                Log.i("getDetails", "detailsSucces")
+                Log.i("getDetails", "detailsSuccess")
             }catch (e : IOException){
                 val message = "Check internet connection"
                 _uiState.value= DetailsUIState.Error(message = message)
@@ -58,5 +59,14 @@ class RecipeDetailsViewModel(application: Application, savedStateHandle: SavedSt
             }
         }
 
+    }
+    fun isSaved(id : String){
+        viewModelScope.launch {
+            try {
+                 _saved.value = db.savedMealsDAO().isMealSaved(id)
+            }catch (e : Exception){
+                Log.e("checkSavedMeal", "Error checking", e)
+            }
+        }
     }
 }
