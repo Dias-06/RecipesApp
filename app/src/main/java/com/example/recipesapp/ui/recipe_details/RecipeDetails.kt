@@ -14,8 +14,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.OutlinedFlag
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.recipesapp.data.local.SavedMealEntity
 import com.example.recipesapp.model.getIngredientsList
 
 
@@ -36,6 +44,7 @@ import com.example.recipesapp.model.getIngredientsList
 fun RecipeDetails(modifier: Modifier = Modifier){
     val viewModel : RecipeDetailsViewModel = viewModel()
     val uiState = viewModel.uiState.collectAsState().value
+    val isSaved = viewModel.saved.collectAsState().value
     val scrollState = rememberScrollState()
     when(uiState){
         is DetailsUIState.Loading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
@@ -59,7 +68,22 @@ fun RecipeDetails(modifier: Modifier = Modifier){
                 modifier = Modifier.fillMaxWidth().height(180.dp),
                 contentScale = ContentScale.Crop)
             Column() {
-                Text(meal?.strMeal ?: "Unknown", style = MaterialTheme.typography.titleLarge)
+                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                    val entity = SavedMealEntity(id = meal?.idMeal ?: "1", name = meal?.strMeal, country = meal?.strCountry, image = meal?.strMealThumb)
+                    Text(meal?.strMeal ?: "Unknown", style = MaterialTheme.typography.titleLarge)
+                    if(isSaved){
+                        IconButton(onClick = {viewModel.deleteMeal(meal = entity)}, modifier = Modifier.size(40.dp)) {
+                            Icon(Icons.Outlined.Bookmark, contentDescription = "Save meal")
+                        }
+                    }
+                    else{
+                        IconButton(onClick = {viewModel.saveRecipe(entity)}, modifier = Modifier.size(40.dp)) {
+                            Icon(Icons.Outlined.BookmarkBorder, contentDescription = "Save meal")
+                        }
+                    }
+
+                }
+
                 Text(meal?.strTags ?: "No tags")//tags
                 Text("Ingredients: ", style = MaterialTheme.typography.titleMedium)
 
