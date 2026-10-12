@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -21,7 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.recipesapp.ui.MyRecipes
+import com.example.recipesapp.ui.my_recipes.MyRecipes
 import com.example.recipesapp.ui.discover.Discover
 import com.example.recipesapp.ui.recipe_details.RecipeDetails
 import com.example.recipesapp.ui.saved.SavedRecipes
@@ -37,7 +39,16 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
 
     val showBottomBar = currentRoute in topLevelRoutes
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { TopAppBar({Text("RecipeApp")})},
+        topBar = {
+            when(currentRoute){
+                "saved" -> TopAppBar({Text("Saved recipes")})
+                "my recipes" -> TopAppBar({Text("My Recipes")},
+                    actions = { IconButton(onClick = {}){
+                    Icon(Icons.Default.Add, contentDescription = "Add recipe")
+                } })
+                else -> TopAppBar({Text("RecipeApp")})
+            }
+        },
         bottomBar = {
             if (showBottomBar){
                 NavigationBar{

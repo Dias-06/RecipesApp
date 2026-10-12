@@ -1,4 +1,4 @@
-package com.example.recipesapp.ui
+package com.example.recipesapp.ui.my_recipes
 
 import androidx.compose.runtime.Composable
 
