@@ -72,7 +72,6 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
                         onClick = {
                             navController.navigate("myRecipes"){
                                 popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
-                                restoreState = true
                                 launchSingleTop = true
                             }},
                         selected = currentRoute == "myRecipes")
