@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.recipesapp.ui.create_recipe.CreateRecipeForm
 import com.example.recipesapp.ui.my_recipes.MyRecipes
 import com.example.recipesapp.ui.discover.Discover
 import com.example.recipesapp.ui.recipe_details.RecipeDetails
@@ -42,8 +43,8 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
         topBar = {
             when(currentRoute){
                 "saved" -> TopAppBar({Text("Saved recipes")})
-                "my recipes" -> TopAppBar({Text("My Recipes")},
-                    actions = { IconButton(onClick = {}){
+                "myRecipes" -> TopAppBar({Text("My Recipes")},
+                    actions = { IconButton(onClick = {navController.navigate("createRecipeForm")}){
                     Icon(Icons.Default.Add, contentDescription = "Add recipe")
                 } })
                 else -> TopAppBar({Text("RecipeApp")})
@@ -71,7 +72,6 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
                         onClick = {
                             navController.navigate("myRecipes"){
                                 popUpTo(navController.graph.findStartDestination().id ) { saveState = true }
-                                restoreState = true
                                 launchSingleTop = true
                             }},
                         selected = currentRoute == "myRecipes")
@@ -105,6 +105,9 @@ fun AppNavigation(navController : NavHostController = rememberNavController()){
             }
             composable("searchByCategory/{mealName}"){ backStackEntry ->
                 SearchByCategoryScreen(onMealClick = {id -> navController.navigate("recipeDetails/${id}")})
+            }
+            composable(route = "createRecipeForm") {
+                CreateRecipeForm()
             }
         }
     }

@@ -5,8 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
-import retrofit2.http.DELETE
 
 @Dao
 interface SavedMealsDAO{
@@ -20,4 +18,12 @@ interface SavedMealsDAO{
 
     @Delete
     suspend fun deleteMeal(meal : SavedMealEntity)
+}
+@Dao
+interface MyRecipesDAO{
+    @Query("SELECT * FROM MyRecipes")
+    suspend fun getMyRecipes() : List<MyRecipeEntity>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addMyRecipe(recipe : MyRecipeEntity)
 }

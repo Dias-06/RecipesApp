@@ -10,3 +10,12 @@ data class SavedMealEntity(
     val image : String? = "Unknown",
     val country : String? = "Unknown"
 )
+
+@Entity(tableName = "MyRecipes")
+data class MyRecipeEntity(
+    @PrimaryKey(autoGenerate = true) val id : Int = 0,
+    val name: String,
+    val description : String,
+    val instruction : String,
+    val ingredients : List<Pair<String, String>>,
+)
